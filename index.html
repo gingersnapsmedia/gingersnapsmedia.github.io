@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Ginger Snaps Media · Connect</title>
+<style>
+  :root { --cream:#F4EDE1; --green:#23361F; --gold:#9D7A2F; }
+  body { margin:0; background:var(--cream); color:var(--green); font:16px/1.55 -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .wrap { max-width:560px; margin:0 auto; padding:56px 16px; text-align:center; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-weight:600; font-size:2rem; margin:0 0 8px; }
+  .eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:.18em; font-size:.75rem; font-weight:700; }
+  .box { background:#FBF8F2; border:1px solid #DDD2BF; border-radius:12px; padding:14px; word-break:break-all;
+         font:13px ui-monospace, Menlo, monospace; text-align:left; margin:16px 0; }
+  button { background:var(--green); color:var(--cream); border:0; border-radius:999px; padding:12px 22px; font:600 15px inherit; cursor:pointer; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<!-- This page holds nothing secret. It only passes a one-time login code back to
+     the Ginger Snaps Media dashboard, which runs privately on Stephanie's Mac. -->
+<div class="wrap">
+  <p class="eyebrow">Ginger Snaps Media</p>
+  <div id="trying"><h1>Finishing up…</h1><p>One moment.</p></div>
+  <div id="manual" class="hidden">
+    <h1>Thank you — almost done!</h1>
+    <p>Please copy the link below and send it to Stephanie at Ginger Snaps Media (text or email is fine).
+       It expires in about an hour.</p>
+    <div class="box" id="link"></div>
+    <button id="copy">Copy link</button>
+    <p id="copied" class="hidden">Copied ✓</p>
+  </div>
+  <div id="nothing" class="hidden"><h1>Nothing to do here</h1><p>This page is used when connecting an account to Ginger Snaps Media.</p></div>
+</div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  if (!q.get("code") && !q.get("error")) {
+    document.getElementById("trying").className = "hidden";
+    document.getElementById("nothing").className = "";
+    return;
+  }
+  var href = location.href;
+  document.getElementById("link").textContent = href;
+  document.getElementById("copy").onclick = function () {
+    navigator.clipboard.writeText(href).then(function () { document.getElementById("copied").className = ""; });
+  };
+  // Links started on Stephanie's own Mac carry "L" in the state, so hand the
+  // code straight to the private dashboard there. Client links show the
+  // copy-and-send instructions instead.
+  if (/^(ig|tt)L\./.test(q.get("state") || "")) {
+    location.replace("http://localhost:8765/connect/callback" + location.search);
+    return;
+  }
+  document.getElementById("trying").className = "hidden";
+  document.getElementById("manual").className = "";
+})();
+</script>
+</body>
+</html>
