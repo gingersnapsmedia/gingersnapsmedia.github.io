@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="referrer" content="no-referrer">
-<title>Ginger Snaps Media · Connect</title>
+<title>Ginger Snaps Media ¬∑ Connect</title>
 <style>
   :root { --cream:#F4EDE1; --green:#23361F; --gold:#9D7A2F; }
   body { margin:0; background:var(--cream); color:var(--green); font:16px/1.55 -apple-system, "Helvetica Neue", Arial, sans-serif; }
@@ -23,14 +23,14 @@
      the Ginger Snaps Media dashboard, which runs privately on Stephanie's Mac. -->
 <div class="wrap">
   <p class="eyebrow">Ginger Snaps Media</p>
-  <div id="trying"><h1>Finishing up…</h1><p>One moment.</p></div>
+  <div id="trying"><h1>Finishing up‚Ä¶</h1><p>One moment.</p></div>
   <div id="manual" class="hidden">
-    <h1>Thank you — almost done!</h1>
+    <h1>Thank you ‚Äî almost done!</h1>
     <p>Please copy the link below and send it to Stephanie at Ginger Snaps Media (text or email is fine).
        It expires in about an hour.</p>
     <div class="box" id="link"></div>
     <button id="copy">Copy link</button>
-    <p id="copied" class="hidden">Copied ✓</p>
+    <p id="copied" class="hidden">Copied ‚úì</p>
   </div>
   <div id="nothing" class="hidden"><h1>Nothing to do here</h1><p>This page is used when connecting an account to Ginger Snaps Media.</p></div>
 </div>
@@ -50,6 +50,11 @@
   // Links started on Stephanie's own Mac carry "L" in the state, so hand the
   // code straight to the private dashboard there. Client links show the
   // copy-and-send instructions instead.
+  // Logins for the scheduled-posting service go to it directly.
+  if (/^pw\./.test(q.get("state") || "")) {
+    location.replace("https://gsm-poster.gsm-poster.workers.dev/oauth/tiktok" + location.search);
+    return;
+  }
   if (/^(ig|tt)L\./.test(q.get("state") || "")) {
     location.replace("http://localhost:8765/connect/callback" + location.search);
     return;
